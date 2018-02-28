@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+var Ti = require("../src/index");
+var die = require("../src/utils").die;
+var fs = require("fs");
+var cmd = process.argv[2];
+if(process.argv.length < 3){
+	die("Usage: ./ti [command] [args]");
+}
+switch(cmd){
+case "run":
+	var	tfile = process.argv[3];
+	var str = fs.readFileSync(tfile).toString();
+	var ti = new Ti({});
+	ti.init(function(){
+		ti.run(str, {}, function(rtn){
+			console.log(rtn);
+		});
+	});
+	break;
+default:
+	die("unknown command");
+}

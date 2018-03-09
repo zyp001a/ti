@@ -42,7 +42,8 @@ module.exports = {
 	pcall2ast: pcall2ast,
 	exec: exec,
 	deftype: deftype,
-	deffunc: deffunc
+	deffunc: deffunc,
+	convert: convert
 }
 var types = {};
 function deftype(p, ex){
@@ -87,6 +88,13 @@ function init(fn){
 	deffunc(function _vardump(obj){
 		console.log("dump:");
 		console.log(obj);
+		this.fn();
+	})
+	deffunc(function _print(obj){
+		if(obj.val == undefined || obj.val == null){
+		}else{
+			console.log(obj.val);			
+		}
 		this.fn();
 	})
 	inited = 1;	
@@ -153,18 +161,52 @@ function getleaf(leaf, config){
 	}
 	return leaf.cpt;
 }
+function pcpt2cpt(pcpt, brch, key, fn){
+	var keys = Object.keys(pcpt);
+	utils.eachsync(keys, function(k, fnsub){
+		var v = pcpt[k];
+		if(typeof v == "object"){
+			if(v[0] == "_word"){
+				if(v[1] == key){
+					pcpt[k] = pcpt;
+					fnsub();
+				}else{
+					get(brch, v[1], {}, function(subcpt){
+						pcpt[k] = subcpt;
+						fnsub();
+					})
+				}					
+			}else{
+				pcpt2cpt(v, brch, key, function(subpcpt){
+					pcpt[k] = subpcpt;
+					fnsub();					
+				});
+			}
+		}else{
+			fnsub();
+		}
+	}, function(){
+		return fn(pcpt);
+	});
+}
 //leaf local notnew
 function get(brch, key, config, fn){
 	if(!config) config = {};
 	var leaf = brch.leafs[key];
 	if(leaf) return fn(getleaf(leaf, config));
 	utils.ifsync(db, function(fnsub){
-		db.get(brch+"/"+key, function(leafstr){
-			if(leafstr)
-				return exec(leafstr, brch ,function(rtn){
-					fnsub(rtn);
-				})
-			fnsub();
+		db.get(brch.path+"/"+key, function(pcpt){
+			if(pcpt){
+				pcpt2cpt(pcpt, brch, key, function(cpt){
+					if(!cpt.type) cpt.type = "Cpt";
+					if(!cpt.rel) cpt.rel = {};		
+					cpt.__iscpt = 1;							
+					leaf = newleaf(brch, key, cpt);
+					fnsub(leaf);
+				});
+			}else{
+				fnsub();
+			}
 		});
 	}, function(leaf){
 		if(leaf) return fn(getleaf(leaf, config));
@@ -207,6 +249,8 @@ function raw2cpt(e){
 	}
 }
 function convert(cpt, typec, fn){
+	if(typec == "Cpt") return fn(cpt);
+	
 	fn(cpt);
 }
 function call(pcall, env, fn){

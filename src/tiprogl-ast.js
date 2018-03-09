@@ -1,4 +1,4 @@
-var parser = require("./parser");
+var parser = require("./tiprogl-parser");
 module.exports = {
 	tiprogl2ast: read,
 	ast2tiprogl: ast2str

@@ -26,8 +26,13 @@ Ti.prototype.run = function(str, config, fn){
 	var self = this;
 	var brch = ap.newbrch(config.brch || "main");
 	var ctx = pt.newctx(brch);
-	pt.tinatl2pcall(str, ctx, function(pcall){		
-		fn(pcall);
+	var envcpt = ap.newcpt("Env", {});
+	ap.newleaf(brch, "$env", envcpt);
+	var env = envcpt.val;	
+	pt.tinatl2pcall(str, ctx, function(pcall){
+		ap.call(pcall, env, function(res){
+			fn(res);			
+		})
 	})
 }
 /*

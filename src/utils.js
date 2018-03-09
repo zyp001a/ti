@@ -27,8 +27,13 @@ Object.defineProperty(global, '__function', {
     return __stack[2].getFunctionName();
   }
 });
+Object.defineProperty(global, '__file', {
+	get: function() {
+    return __stack[2].getFileName();
+  }
+});
 function log(str){
-	console.log(__line+":"+__function+":"+__line2);
+	console.log(__line+":"+__file+":"+__function+":"+__line2);
 	console.log(str);	
 }
 function die(){

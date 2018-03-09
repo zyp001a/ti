@@ -13,8 +13,6 @@ var grammar = {
 			"sp2": "[ \\t\\n\\r]*"
     },
     "rules": [
-			["{sp}\`(\\.|[^\\\`])*\`{sp}", 
-			 "yytext = yytext.replace(/^\\s*\`/, '').replace(/\`\\s*$/, ''); return 'VAGUE';"],
 			["\\/\\*[\\S\\s]*\\*\\/", "return;"],//COMMENT
 			["\\#[^\\n\\r]+[\\n\\r]*", "return;"],//COMMENT
 			["\\\/\\\/[^\\n\\r]+[\\n\\r]*", "return;"],//COMMENT
@@ -37,6 +35,7 @@ var grammar = {
       ["{sp2}\\]{sp}", "return ']'"],
       ["{sp}\\{{sp2}", "return '{'"],
       ["{sp2}\\}{sp}", "return '}'"],
+			["{sp}\\#\\!{sp2}", "return '#!'"],			
 			["{sp}\\=\\~{sp2}", "return '=~'"],
 			["{sp}\\=\\?{sp2}", "return '=?'"],
 			["{sp}\\=\\:{sp2}", "return '=:'"],
@@ -83,7 +82,7 @@ var grammar = {
     ["left", "&&"],
     ["left", "+", "-"],
     ["left", "*", "/", "%"],
-    ["right", "&", "|", "@", "~", "%", "@!"],
+    ["right", "&", "|", "@", "~", "%"],
     ["right", "!"],
 		["left", ".", ":", "=>"]
 	],
@@ -237,5 +236,5 @@ var grammar = {
 };
 var options = {};
 var code = new jison.Generator(grammar, options).generate();
-fs.writeFileSync(__dirname + '/parser.js', code);
+fs.writeFileSync(__dirname + '/tiprogl-parser.js', code);
 

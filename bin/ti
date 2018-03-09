@@ -13,7 +13,8 @@ case "run":
 	var ti = new Ti({});
 	ti.init(function(){
 		ti.run(str, {}, function(rtn){
-			console.log(rtn);
+//			console.log("FINAL");
+//			console.log(rtn);
 		});
 	});
 	break;

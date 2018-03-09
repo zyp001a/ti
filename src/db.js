@@ -1,5 +1,6 @@
 var fs = require("fs");
 var path = require("path");
+var parse = require("./db-parser").parse;
 module.exports = {
 	setroot: setroot,
 	open: open,
@@ -7,18 +8,18 @@ module.exports = {
 	get: get,
 	set: set
 }
-var root = "../ti-data";
+var root = "./root";
 function setroot(_root){
 	root = _root;	
 }
 
 function get(key, fn){
-	var tpath = path.join(root, key);
+	var tpath = path.join(root, key+".td");
 	var str;
 	if(!fs.existsSync(tpath))
 		str = undefined;
 	else
-		str = fs.readFileSync(tpath).toString();
+		str = parse(fs.readFileSync(tpath).toString());
 	fn(str);
 }
 function set(){

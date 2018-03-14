@@ -1,0 +1,39 @@
+#!/bin/env node
+var site = process.argv[2];
+const puppeteer = require('puppeteer');
+(async () => {
+	const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
+  const page = await browser.newPage();
+  await page.goto(site);
+	const text = await page.evaluate(() => {
+		document.querySelectorAll("style").forEach((e)=>{
+			e.parentNode.removeChild(e);
+		})
+		document.querySelectorAll("script").forEach((e)=>{
+			e.parentNode.removeChild(e);
+		})
+		document.querySelectorAll("noscript").forEach((e)=>{
+			e.parentNode.removeChild(e);
+		})
+		var inputs = document.querySelectorAll("input");
+		for(var i = 0; i<inputs.length; i++){
+			var  e = inputs[i];
+			if(e.value){
+				e.outerHTML = "`input`" + e.value + "<br>";
+			}
+		}
+		//TODO TABLE LI
+
+		["h1","h2","h3","h4","h5","h6","li"].forEach((e)=>{
+			var hs = document.querySelectorAll(e);
+			for(var hi = 0; hi<hs.length; hi++){
+				hs[hi].outerHTML = "`" + e + "`" + hs[hi].innerHTML + "<br>";
+			}
+		})
+
+		return document.body.innerText;
+	});
+	console.log(text)
+
+  await browser.close();
+})();

@@ -593,22 +593,24 @@ var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
 case 0:yy_.yytext = yy_.yytext.replace(/^\s*"/, '').replace(/"\s*$/, ''); return 13;
 break;
-case 1:yy_.yytext = yy_.yytext.replace(/^\s*'/, '').replace(/'\s*$/, ''); return 13;
+case 1:yy_.yytext = yy_.yytext.replace(/^\s*"/, '').replace(/"\s*$/, ''); return 13;
 break;
-case 2:yy_.yytext = yy_.yytext.replace(/\s/g, ''); return 11;
+case 2:yy_.yytext = yy_.yytext.replace(/^\s*'/, '').replace(/'\s*$/, ''); return 13;
 break;
-case 3:yy_.yytext = yy_.yytext.replace(/\s/g, '');return 12
+case 3:yy_.yytext = yy_.yytext.replace(/\s/g, ''); return 11;
 break;
-case 4:return 6
+case 4:yy_.yytext = yy_.yytext.replace(/\s/g, '');return 12
 break;
-case 5:return 9
+case 5:return 6
 break;
-case 6:return 10
+case 6:return 9
+break;
+case 7:return 10
 break;
 }
 },
-rules: [/^(?:([ \t]*)"(\.|[^\"])*"([ \t]*))/,/^(?:([ \t]*)'(\.|[^\'])*'([ \t]*))/,/^(?:([ \t]*)(-?(?:[0-9]|[1-9][0-9]+))((?:\.[0-9]+))?((?:[eE][-+]?[0-9]+))?\b([ \t]*))/,/^(?:([ \t]*)\$?([a-zA-Z_])(([a-zA-Z_])|([0-9]))*([ \t]*))/,/^(?:([ \t]*):([ \t]*))/,/^(?:([ \t]*){([ \t\n\r]*))/,/^(?:([ \t\n\r]*)}([ \t]*))/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6],"inclusive":true}}
+rules: [/^(?:([ \t]*)`(\.|[^\`])*`([ \t]*))/,/^(?:([ \t]*)"(\.|[^\"])*"([ \t]*))/,/^(?:([ \t]*)'(\.|[^\'])*'([ \t]*))/,/^(?:([ \t]*)(-?(?:[0-9]|[1-9][0-9]+))((?:\.[0-9]+))?((?:[eE][-+]?[0-9]+))?\b([ \t]*))/,/^(?:([ \t]*)\$?([a-zA-Z_])(([a-zA-Z_])|([0-9]))*([ \t]*))/,/^(?:([ \t]*):([ \t]*))/,/^(?:([ \t]*){([ \t\n\r]*))/,/^(?:([ \t\n\r]*)}([ \t]*))/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7],"inclusive":true}}
 });
 return lexer;
 })();

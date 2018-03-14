@@ -18,6 +18,8 @@ var grammar = {
 			"sp2": "[ \\t\\n\\r]*"
     },
     "rules": [
+			["{sp}\`(\\.|[^\\\`])*\`{sp}", 
+			 "yytext = yytext.replace(/^\\s*\"/, '').replace(/\"\\s*$/, ''); return 'STRING';"],			
 			["{sp}\"(\\.|[^\\\"])*\"{sp}", 
 			 "yytext = yytext.replace(/^\\s*\"/, '').replace(/\"\\s*$/, ''); return 'STRING';"],
 			["{sp}\'(\\.|[^\\\'])*\'{sp}",

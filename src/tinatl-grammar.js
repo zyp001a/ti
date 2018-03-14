@@ -6,7 +6,7 @@ var grammar = {
       "digit": "[0-9]",
 			"letter": "[a-zA-Z_]",
       "esc": "\\\\",
-      "int": "-?(?:[0-9]|[1-9][0-9]+)",
+      "int": "-?(?:[0-9]+)",
       "exp": "(?:[eE][-+]?[0-9]+)",
       "frac": "(?:\\.[0-9]+)",
 			"sp": "[ \\t]*",
@@ -17,6 +17,8 @@ var grammar = {
 			 "yytext = yytext.replace(/^\\s*\"/, '').replace(/\"\\s*$/, ''); return 'QUOTE';"],
 			["{sp}\'(\\.|[^\\\'])*\'{sp}",
        "yytext = yytext.replace(/^\\s*\'/, '').replace(/\'\\s*$/, ''); return 'QUOTE';"],
+			["{sp}\`(\\.|[^\\\`])*\`{sp}",
+       "yytext = yytext.replace(/^\\s*\'/, '').replace(/\'\\s*$/, ''); return 'SUPP';"],
       ["{sp}{int}{frac}?{exp}?\\b{sp}",
 			 "yytext = yytext.replace(/\\s/g, ''); return 'NUMBER';"],
 			["{sp}\\$?{letter}({letter}|{digit})*{sp}", 
@@ -24,23 +26,30 @@ var grammar = {
 			["{sp}{digit}+{letter}{sp}", 
 			 "yytext = yytext.replace(/\\s/g, '');return 'CAL'"],
       ["{sp};+{sp}", "return ';'"],
+      ["{sp}\{{sp2}", "return '{'"],
+      ["{sp2}\}{sp}", "return '}'"]
     ]
   },
   "start": "Start",
   "bnf": {
 		"Start": [
 			["P", "return $$ = $1"],
-			["P ;", "return $$ = $1"]			
+			["P ;", "$1[$1.length-1].p = 1; return $$ = $1;"],
 		],
 		"P": [
 			["S", "$$ = [$1]"],
-			["P ; S", "$$ = $1; $1.push($2)"]
+			["P ; S", "$$ = $1; $1[$1.length-1].p = 1; $1.push($3)"],
 		],
 		"S": [
-			["W", "$$ = [$1]"],
-			["S W", "$$ = $1; $1.push($2)"]
+			["W", "$$ = {s:[$1]}"],
+			["S W", "$$ = $1; $1.s.push($2)"]
 		],
 		"W": [
+			["WE", "$$ = $1"],
+			["{ W }", "$$ = ['set', $2]"]
+		],		
+		"WE": [
+			["SUPP", "$$ = ['supp', $1]"],
 			["QUOTE", "$$ = ['quote', $1]"],
 			["NUMBER", "$$ = ['number', $1]"],
 			["WORD", "$$ = ['word', $1]"],

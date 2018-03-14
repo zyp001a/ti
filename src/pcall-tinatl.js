@@ -14,6 +14,7 @@ function newctx(brch, ctx){
 	if(!ctx) ctx = {};
 	nctx.brch = brch;
 	nctx.pctx = ctx;
+	nctx.desc = [];
 	nctx.cpts = [];
 	nctx.params = [];		
 	var n = nctx.n = {
@@ -21,7 +22,7 @@ function newctx(brch, ctx){
 		where:0,
 		who:0,
 		how:undefined,
-		will: 0
+		agent:undefined
 	};
 	return nctx;
 }
@@ -32,7 +33,7 @@ function _addcpts(ctx, arch, desccache){
 		arch.desccache = desccache;
 		desccache = [];
 		ctx.cpts.push(arch);
-	}	
+	}
 }
 function maparch(ctx, words, fn){
 	var desccache = [];
@@ -62,6 +63,10 @@ function maparch(ctx, words, fn){
 			die(word)
 		}
 	}, function(){
+		ctx.desc = desccache;
+//		if(desccache.length){
+			//desc ctx
+//		}
 //		utils.freqsort(ctx.freq);		
 		fn();
 	});
@@ -104,6 +109,7 @@ function mapsketch(ctx, fn){
 	})
 }
 function mappcall(ctx, fn){
+	if(!ctx.n.how) return fn();
 	var argdef = ctx.n.how.val.argdef;
 	var pcallargs = [];
 	utils.eachsync(Object.keys(argdef), function(ai, fnsub1){	
@@ -131,12 +137,16 @@ function mappcall(ctx, fn){
 function tinatl2pcall(str, ctx, fn){
 	var parsed = parser.parse(str);
 	var calls = [];
-	utils.eachsync(parsed, function(e, fnsub){
+	utils.eachsync(parsed.s, function(e, fnsub){
 		var sctx = newctx(ctx.brch, ctx);
 		maparch(sctx, e, function(){ //ctx.cpts
 			mapsketch(sctx, function(){//ctx.params ctx.n
 				mappcall(sctx, function(pcall){
-					calls.push(pcall);
+					if(pcall)
+						calls.push(pcall);
+					if(sctx.desccache.length){
+						//add calls to ctx
+					}
 					fnsub();
 				});
 			});

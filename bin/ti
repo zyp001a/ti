@@ -18,6 +18,9 @@ case "run":
 		});
 	});
 	break;
+case "note":
+	
+	break;
 default:
 	die("unknown command");
 }

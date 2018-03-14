@@ -1,0 +1,113 @@
+`h1`Syllabification
+From Wikipedia, the free encyclopedia
+
+This article needs additional citations for verification. Please help improve this article by adding citations to reliable sources. Unsourced material may be challenged and removed. (May 2013) (Learn how and when to remove this template message)
+Syllabification (/sɪˌlæbɪfɪˈkeɪʃən/) or syllabication (/sɪˌlæbɪˈkeɪʃən/) is the separation of a word into syllables, whether spoken or written.[1]
+
+`h2`Contents
+ [hide] 
+`li`1	Overview
+`li`2	See also
+`li`3	References
+`li`4	External links
+`h2`Overview[edit]
+The written separation into syllables is usually marked by a hyphen when using English orthography (e.g., syl-la-ble) and with a period when transcribing the actually spoken syllables in the International Phonetic Alphabet (IPA) (e.g., [ˈsɪl.ə.bᵊɫ]). For presentation purposes, typographers may use an interpunct (Unicode character U+00B7, e.g., syl·la·ble), or a special-purpose "hyphenation point" (U+2027, e.g., syl‧la‧ble). A space is possible but with zero probability (e.g., syl la ble).
+
+At the end of a line, a word is separated in writing into parts, conventionally called "syllables", if it does not fit the line and if moving it to the next line would make the first line much shorter than the others. This can be a particular problem with very long words, and with narrow columns in newspapers. Word processing has automated the process of justification, making syllabification of shorter words often unnecessary.
+
+In some languages, the spoken syllables are also the basis of syllabification in writing. However, possibly due to the weak correspondence between sounds and letters in the spelling of modern English, written syllabification in English is based mostly on etymological or morphological instead of phonetic principles. For example, it is not possible to syllabify "learning" as lear-ning according to the correct syllabification of the living language. Seeing only lear- at the end of a line might mislead the reader into pronouncing the word incorrectly, as the digraph ea can hold many different values. The history of English orthography accounts for such phenomena.
+
+English written syllabification therefore deals with a concept of "syllable" that does not correspond to the linguistic concept of a phonological (as opposed to morphological) unit.
+
+As a result, even most native English speakers are unable to syllabify words according to established rules without consulting a dictionary or using a word processor. Schools usually do not provide much more advice on the topic than to consult a dictionary. In addition, there are differences between British and US syllabification and even between dictionaries of the same English variety.
+
+In Finnish, Italian, Portuguese and other nearly phonemically spelled languages, writers can in principle correctly syllabify any existing or newly created word using only general rules. In Finland, children are first taught to hyphenate every word until they produce the correct syllabification reliably, after which the hyphens can be omitted.
+
+`h2`See also[edit]
+`li`Hyphenation algorithm
+`li`Phonotactics
+`li`Tautosyllabic, heterosyllabic and ambisyllabic phones
+`li`Syllable structure in English phonology
+`h2`References[edit]
+`li`Jump up ^ The term is also used for the process of a consonant becoming syllabic. For example, in North Central American English, "can" may be pronounced [kən], or [kn̩] with the a syllabic /n/.
+`h2`External links[edit]
+`li`Online Lyric Hyphenator: Hyphenates English text into syllables
+`li`Online hyphenation tool: Hyphenation algorithms for several languages
+`li`Hyphenation tool for the French Language: Hyphenates French words with explanation
+Categories: `li`Phonotactics
+`h2`Navigation menu
+`h3`Personal tools
+`li`Not logged in
+`li`Talk
+`li`Contributions
+`li`Create account
+`li`Log in
+`h3`Namespaces
+`li`Article
+`li`Talk
+`h3`Views
+`li`Read
+`li`Edit
+`li`View history
+`h3` Search 
+`input`Special:Search
+`input`Go
+`h3`Navigation
+`li`Main page
+`li`Contents
+`li`Featured content
+`li`Current events
+`li`Random article
+`li`Donate to Wikipedia
+`li`Wikipedia store
+`h3`Interaction
+`li`Help
+`li`About Wikipedia
+`li`Community portal
+`li`Recent changes
+`li`Contact page
+`h3`Tools
+`li`What links here
+`li`Related changes
+`li`Upload file
+`li`Special pages
+`li`Permanent link
+`li`Page information
+`li`Wikidata item
+`li`Cite this page
+`h3`Print/export
+`li`Create a book
+`li`Download as PDF
+`li`Printable version
+`h3`Languages
+`li`Čeština
+`li`Deutsch
+`li`Esperanto
+`li`Français
+`li`Հայերեն
+`li`Italiano
+`li`Кыргызча
+`li`Magyar
+`li`Norsk nynorsk
+`li`Português
+`li`Русский
+`li`Svenska
+`li`Tagalog
+`li`Українська
+`li`Vèneto
+`li`Walon
+7 more
+Edit links
+`li` This page was last edited on 20 October 2017, at 15:09.
+`li`Text is available under the Creative Commons Attribution-ShareAlike License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+`li`Privacy policy
+`li`About Wikipedia
+`li`Disclaimers
+`li`Contact Wikipedia
+`li`Developers
+`li`Cookie statement
+`li`Mobile view
+`li`Enable previews
+`li`  	
+`li`  	
+

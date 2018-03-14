@@ -15,7 +15,7 @@ var ast2tiprogl = require("./tiprogl-ast").ast2tiprogl;
 //env
 
 //cpt
-// :type :val :ref :id :leaf
+// :type :val :ref :id :leaf :prop
 // type
 //  :parent :criteria :defaults
 // function
@@ -141,6 +141,7 @@ function newcpt(type, val){
 		type: type || "Cpt",
 		val: val,
 		rel: {},
+		prop: {},
 		//		id:
 		__iscpt: 1
 	}
@@ -199,7 +200,8 @@ function get(brch, key, config, fn){
 			if(pcpt){
 				pcpt2cpt(pcpt, brch, key, function(cpt){
 					if(!cpt.type) cpt.type = "Cpt";
-					if(!cpt.rel) cpt.rel = {};		
+					if(!cpt.rel) cpt.rel = {};
+					if(!cpt.prop) cpt.prop = {};							
 					cpt.__iscpt = 1;							
 					leaf = newleaf(brch, key, cpt);
 					fnsub(leaf);

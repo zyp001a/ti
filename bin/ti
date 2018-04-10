@@ -2,6 +2,7 @@
 var Ti = require("../src/index");
 var die = require("../src/utils").die;
 var fs = require("fs");
+var http = require("http");
 var cmd = process.argv[2];
 if(process.argv.length < 3){
 	die("Usage: ./ti [command] [args]");
@@ -11,16 +12,67 @@ case "run":
 	var	tfile = process.argv[3];
 	var str = fs.readFileSync(tfile).toString();
 	var ti = new Ti({});
-	ti.init(function(){
-		ti.run(str, {}, function(rtn){
-//			console.log("FINAL");
-//			console.log(rtn);
-		});
+	ti.execnatl(str, function(rtn){
+		//			console.log("FINAL");
+		//			console.log(rtn);
+	});
+	break;
+case "runp":
+	var	tfile = process.argv[3];
+	var str = fs.readFileSync(tfile).toString();
+	var ti = new Ti({});
+	ti.execprogl(str, function(rtn){
+		//			console.log("FINAL");
+		//			console.log(rtn);
 	});
 	break;
 case "note":
 	
 	break;
+case "read":
+	
+	break;
+case "serve":
+	var	port = process.argv[3] || 8080;
+	ti.init(function(){
+		ti.context = {
+			inputLang: "tinat",
+			outputLang: "tinat",			
+			response: 1
+		}
+		http.createServer(function(req, res) {
+			var url = req.url;
+			var match;
+			if((match = url.match(/^\/api\/(\S+)/))){
+				var str = decodeURIComponent(match[1]);
+				ti.run(str, {}, function(rtn){
+					res.end(0)
+				})
+			}else if(url == "/"){
+				sendFile("static/index.html", res);
+			}else{
+				sendFile("static" + url, res);
+			}
+		}).listen(port, function(err){
+			if(err) console.log(err);
+			else console.log("listen to port "+port);
+		});
+	})
+	break;
 default:
 	die("unknown command");
+}
+function sendFile(filePath, res){
+  if(fs.existsSync(filePath)){
+    var stream = fs.createReadStream(filePath);
+    stream.on('error', function() {
+      res.writeHead(404);
+      res.end("0");
+    });
+    stream.pipe(res);
+  }
+  else{
+    res.writeHead(404);
+    res.end("0");
+  }
 }

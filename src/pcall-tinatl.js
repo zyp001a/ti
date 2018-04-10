@@ -3,73 +3,59 @@ var ap = require("./ast-pcall");
 var parser = require("./tinatl-parser");
 var log = utils.log;
 var die = utils.die;
+var cc = require("./concept");
+var tree = require("./tree");
+var call = require("./call");
+module.exports = {
+	str2tinatl: parser.parse,
+	tinatl2pcall: tinatl2pcall
+}
+
 /*
 .arch
 arch: 
  
 */
 
-function newctx(brch, ctx){
-	var nctx = {};
-	if(!ctx) ctx = {};
-	nctx.brch = brch;
-	nctx.pctx = ctx;
-	nctx.desc = [];
-	nctx.cpts = [];
-	nctx.params = [];		
-	var n = nctx.n = {
-		when:0,
-		where:0,
-		who:0,
-		how:undefined,
-		agent:undefined
-	};
-	return nctx;
-}
-function _addcpts(ctx, arch, desccache){
+function _addcpts(ctx, arch){
 	if(arch.arch && arch.arch.desc){
-		desccache.push(arch);					
+		ctx.desccache.push(arch);					
 	}else{
-		arch.desccache = desccache;
-		desccache = [];
+		arch.desccache = ctx.desccache;
+		ctx.desccache = [];
 		ctx.cpts.push(arch);
 	}
 }
-function maparch(ctx, words, fn){
-	var desccache = [];
-	utils.eachsync(words, function(word, fnsub){
-		var type = word[0];
-		var val = word[1];
-		switch(type){
-		case "word":			
-			ap.get(ctx.brch, val+".arch",  {}, function(arch){
-				//			utils.freqadd(ctx.freq, arch.val);
-				_addcpts(ctx, arch, desccache);
-				fnsub();
-			});
-			return;
-		case "quote":
-		case "number":
-			ap.get(ctx.brch, "number.arch",  {}, function(arch){
-				var narch = ap.newcpt("Number", val);
-				narch.arch = arch.arch;
-				_addcpts(ctx, narch, desccache);
-				fnsub();
-			});
-			return;
-		case "cal":
-			break;
-		default:
-			die(word)
-		}
-	}, function(){
-		ctx.desc = desccache;
-//		if(desccache.length){
-			//desc ctx
-//		}
-//		utils.freqsort(ctx.freq);		
-		fn();
-	});
+function readword(ctx, word, fn){
+	var type = word[0];
+	var val = word[1];
+	switch(type){
+	case "word":
+		tree.get(ctx.brch, val+".arch",  {}, function(arch){
+			//			utils.freqadd(ctx.freq, arch.val);
+			_addcpts(ctx, arch);
+			fn();
+		});
+		return;
+	case "quote":
+	case "number":
+		tree.get(ctx.brch, "number.arch",  {}, function(arch){
+			var narch = cc.newcpt("Number", val);
+			narch.arch = arch.arch;
+			_addcpts(ctx, narch);
+			fn();
+		});
+		return;
+	case "cal":
+		break;
+	case "supp":
+		break;
+	case "set":
+		break;			
+	default:
+		die(word)
+	}
+	fn();
 }
 
 function mapsketch(ctx, fn){
@@ -116,7 +102,7 @@ function mappcall(ctx, fn){
 		var type = argdef[ai][1];
 		var pi = 0;
 		utils.eachsync(ctx.params, function(parcpt, fnsub){
-			ap.convert(parcpt, type, function(tcpt){
+			call.convert(parcpt, type, function(tcpt){
 				if(tcpt){
 					pcallargs[ai] = ['cpt', tcpt];
 					ctx.params.splice(pi, 1);
@@ -128,18 +114,26 @@ function mappcall(ctx, fn){
 			});
 		}, function(){
 			fnsub1();
-		})
+		});
 	}, function(){
 		fn(['call', ['cpt',ctx.n.how], pcallargs]);
-	})
+	});
 }
 
-function tinatl2pcall(str, ctx, fn){
-	var parsed = parser.parse(str);
+function tinatl2pcall(parsed, ctx, fn){
+	/*
+[
+{ s: [ [ 'word', 'print' ], [ 'number', '1' ] ], p: 1 }
+]
+*/
 	var calls = [];
-	utils.eachsync(parsed.s, function(e, fnsub){
-		var sctx = newctx(ctx.brch, ctx);
-		maparch(sctx, e, function(){ //ctx.cpts
+	utils.eachsync(parsed, function(sent, fnsub1){
+		var sctx = cc.newctx(ctx.brch, ctx);		
+		utils.eachsync(sent.s, function(e, fnsub){
+			readword(sctx, e, function(){ //ctx.cpts
+				fnsub()
+			});
+		}, function(){
 			mapsketch(sctx, function(){//ctx.params ctx.n
 				mappcall(sctx, function(pcall){
 					if(pcall)
@@ -147,7 +141,7 @@ function tinatl2pcall(str, ctx, fn){
 					if(sctx.desccache.length){
 						//add calls to ctx
 					}
-					fnsub();
+					fnsub1();
 				});
 			});
 		});
@@ -157,8 +151,4 @@ function tinatl2pcall(str, ctx, fn){
 		else
 			fn(["calls", calls]);
 	});
-}
-module.exports = {
-	tinatl2pcall: tinatl2pcall,
-	newctx: newctx
 }

@@ -1,0 +1,24 @@
+1. struct
+pcall <-> tinatl <-> natl
+pcall <-> ast <-> tiprogl
+pcall <-> progl
+2. pipeline
+ctx -> input -> tiprogl event history (history) -> get/new obj -> main -> necessary args -> do -> ctx event func 
+3. inherent tree
+ctx:env
+brch
+leaf
+arch
+hst
+
+
+4. context
+inputLang
+eventFunc
+
+
+main: all concepts
+ctx:
+obj:
+time:
+

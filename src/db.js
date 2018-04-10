@@ -22,8 +22,15 @@ function get(key, fn){
 		str = parse(fs.readFileSync(tpath).toString());
 	fn(str);
 }
-function set(){
+function set(obj, fn){
 	
+	fn();
+}
+function unparse(obj){
+	for(var key in obj){
+		
+	}
+	return str;	
 }
 function open(){
 }

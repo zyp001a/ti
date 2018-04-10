@@ -1,9 +1,9 @@
 var parser = require("./tiprogl-parser");
 module.exports = {
-	tiprogl2ast: read,
+	tiprogl2ast: str2ast,
 	ast2tiprogl: ast2str
 }
-function read(str){
+function str2ast(str){
 	return parser.parse(str);
 }
 function ast2str(ast){

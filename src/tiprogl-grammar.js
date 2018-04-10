@@ -173,10 +173,9 @@ var grammar = {
 			["{ Calls }", "$$ = ['_calls', $2]"]
 		],
 		"Function": [
-			["=> ( ) Block", "$$ = ['_function', [$4, []]]"],
-			["=> ( Args ) Block", "$$ = ['_function', [$5, $3]]"],
-			["=> ID ( ) Block", "$$ = ['_function', [$5, [], $2]]"],
-			["=> ID ( Args ) Block", "$$ = ['_function', [$6, $4, $2]]"]
+			["=> Block", "$$ = ['_function', [$2, [], []]]"],
+			["=> Argdef Block", "$$ = ['_function', [$3, $2, []]]"],
+			["=> Argdef Argdef Block", "$$ = ['_function', [$4, $3, $2]]"]
 		],
 		"Arg": [
 			["ID", "$$ = [$1]"],
@@ -184,9 +183,13 @@ var grammar = {
 		],
     "Args": [
       ["Arg", "$$ = [$1]"],
-
 			["Args , Arg", "$$ = $1, $1.push($3)"]
     ],
+		"Argdef": [
+			["( )", "$$= []"],
+			["( Args )", "$$= $2"],
+			["Arg", "$$=[$1]"]
+		],
 		"IDs": [
 			["ID", "$$ = [$1]"],
 			["IDs , ID", "$$ = $1; $1.push($3);"]			

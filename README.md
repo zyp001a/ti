@@ -37,3 +37,17 @@ src pass
 agent = Jonathan Jones
 Jonathan Jones -> VOA news
 VOA news.location <- Washington
+
+load ctx;
+
+path guide
+root
+ 
+ subjective
+  byctx
+  
+  byobj
+   self
+  
+  activateTime
+  bytime
